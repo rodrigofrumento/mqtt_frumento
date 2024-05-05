@@ -15,4 +15,19 @@ void pack_u16(uint8_t **, uint16_t);
 void pack_u32(uint8_t **, uint32_t);
 void pack_bytes(uint8_t **, uint8_t *);
 
+struct bytestring {
+    size_t size;
+    size_t last;
+    unsigned char *data;
+};
+
+/*
+ * const struct bytestring constructor, it require a size cause we use a bounded
+ * bytestring, e.g. no resize over a defined size
+ */
+struct bytestring *bytestring_create(size_t);
+void bytestring_init(struct bytestring *, size_t);
+void bytestring_release(struct bytestring *);
+void bytestring_reset(struct bytestring *);
+
 #endif
