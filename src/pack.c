@@ -61,3 +61,31 @@ void pack_bytes(uint8_t **buf, uint8_t *str) {
     memcpy(*buf, str, len);
     (*buf) += len;
 }
+
+struct bytestring *bytestring_create(size_t len) {
+    struct bytestring *bstring = malloc(sizeof(*bstring));
+    bytestring_init(bstring, len);
+    return bstring;
+}
+
+void bytestring_init(struct bytestring *bstring, size_t size) {
+    if (!bstring)
+        return;
+    bstring->size = size;
+    bstring->data = malloc(sizeof(unsigned char) * size);
+    bytestring_reset(bstring);
+}
+
+void bytestring_release(struct bytestring *bstring) {
+    if (!bstring)
+        return;
+    free(bstring->data);
+    free(bstring);
+}
+
+void bytestring_reset(struct bytestring *bstring) {
+    if (!bstring)
+        return;
+    bstring->last = 0;
+    memset(bstring->data, 0, bstring->size);
+}
